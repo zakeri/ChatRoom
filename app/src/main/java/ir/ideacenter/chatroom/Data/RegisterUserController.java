@@ -1,0 +1,43 @@
+package ir.ideacenter.chatroom.Data;
+
+import android.util.Log;
+
+import ir.ideacenter.chatroom.Models.User;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class RegisterUserController {
+
+    ChatRoomAPI.RegisterUserCallback registerUserCallback;
+
+    public RegisterUserController(ChatRoomAPI.RegisterUserCallback registerUserCallback) {
+        this.registerUserCallback = registerUserCallback;
+    }
+
+    public void start(User user) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ChatRoomAPI.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        ChatRoomAPI chatRoomAPI = retrofit.create(ChatRoomAPI.class);
+        Call<User> call = chatRoomAPI.registerUser(user);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                Log.d("TAG123", "OnResponse " + response.code());
+                if (response.isSuccessful()) {
+                    registerUserCallback.onResponse(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.d("TAG123", "onFailure " + t.getCause().getMessage());
+                registerUserCallback.onFailure(t.getCause().getMessage());
+            }
+        });
+    }
+}
