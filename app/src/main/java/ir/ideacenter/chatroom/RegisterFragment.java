@@ -38,8 +38,13 @@ public class RegisterFragment extends Fragment {
         ChatRoomAPI.RegisterUserCallback registerUserCallback =
                 new ChatRoomAPI.RegisterUserCallback() {
                     @Override
-                    public void onResponse(User user) {
-                        Toast.makeText(getActivity(), user.getUsername(), Toast.LENGTH_SHORT).show();
+                    public void onResponse(boolean success, String errorMessage, User user) {
+                        if (success) {
+                            Toast.makeText(getActivity(), "DONE " + user.getUsername(), Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override

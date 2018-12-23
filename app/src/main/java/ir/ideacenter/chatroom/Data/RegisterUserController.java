@@ -2,6 +2,11 @@ package ir.ideacenter.chatroom.Data;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
+
+import java.io.IOException;
+
+import ir.ideacenter.chatroom.Models.ErrorResponse;
 import ir.ideacenter.chatroom.Models.User;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,7 +34,17 @@ public class RegisterUserController {
             public void onResponse(Call<User> call, Response<User> response) {
                 Log.d("TAG123", "OnResponse " + response.code());
                 if (response.isSuccessful()) {
-                    registerUserCallback.onResponse(response.body());
+                    registerUserCallback.onResponse(true, null, response.body());
+                }
+                else {
+                    try {
+                        String errorMessageJson = response.errorBody().string();
+                        Gson gson = new Gson();
+                        ErrorResponse errorResponse = gson.fromJson(errorMessageJson, ErrorResponse.class);
+                        registerUserCallback.onResponse(false, errorResponse.getMessage(), null);
+                    } catch (Exception IOException) {
+                        registerUserCallback.onResponse(false, "IOException", null);
+                    }
                 }
             }
 

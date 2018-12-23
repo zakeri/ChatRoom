@@ -14,7 +14,7 @@ public interface ChatRoomAPI {
     Call<User> registerUser(@Body User user);
 
     interface RegisterUserCallback {
-        void onResponse(User user);
+        void onResponse(boolean success, String errorMessage, User user);
         void onFailure(String cause);
     }
 
