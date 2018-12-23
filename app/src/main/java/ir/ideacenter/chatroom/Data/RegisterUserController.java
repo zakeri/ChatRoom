@@ -4,9 +4,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
-import java.io.IOException;
-
-import ir.ideacenter.chatroom.Models.ErrorResponse;
+import ir.ideacenter.chatroom.Models.RegisterErrorResponse;
 import ir.ideacenter.chatroom.Models.User;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,8 +38,8 @@ public class RegisterUserController {
                     try {
                         String errorMessageJson = response.errorBody().string();
                         Gson gson = new Gson();
-                        ErrorResponse errorResponse = gson.fromJson(errorMessageJson, ErrorResponse.class);
-                        registerUserCallback.onResponse(false, errorResponse.getMessage(), null);
+                        RegisterErrorResponse registerErrorResponse = gson.fromJson(errorMessageJson, RegisterErrorResponse.class);
+                        registerUserCallback.onResponse(false, registerErrorResponse.getMessage(), null);
                     } catch (Exception IOException) {
                         registerUserCallback.onResponse(false, "IOException", null);
                     }

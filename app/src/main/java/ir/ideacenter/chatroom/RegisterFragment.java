@@ -12,7 +12,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import ir.ideacenter.chatroom.Data.ChatRoomAPI;
+import ir.ideacenter.chatroom.Data.LoginUserController;
 import ir.ideacenter.chatroom.Data.RegisterUserController;
+import ir.ideacenter.chatroom.Models.TokenResponse;
 import ir.ideacenter.chatroom.Models.User;
 
 public class RegisterFragment extends Fragment {
@@ -22,6 +24,7 @@ public class RegisterFragment extends Fragment {
     Button register;
 
     RegisterUserController registerUserController;
+    LoginUserController loginUserController;
 
     @Nullable
     @Override
@@ -41,6 +44,7 @@ public class RegisterFragment extends Fragment {
                     public void onResponse(boolean success, String errorMessage, User user) {
                         if (success) {
                             Toast.makeText(getActivity(), "DONE " + user.getUsername(), Toast.LENGTH_SHORT).show();
+                            LoginUser();
                         }
                         else {
                             Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
@@ -53,7 +57,26 @@ public class RegisterFragment extends Fragment {
                     }
                 };
 
+        ChatRoomAPI.LoginUserCallback loginUserCallback =
+            new ChatRoomAPI.LoginUserCallback() {
+                @Override
+                public void onResponse(boolean success, String errorMessage, TokenResponse tokenResponse) {
+                    if (success) {
+                        Toast.makeText(getActivity(), "Token " + tokenResponse.getAccessToken(), Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(String cause) {
+                    Toast.makeText(getActivity(), cause, Toast.LENGTH_SHORT).show();
+                }
+            };
+
         registerUserController = new RegisterUserController(registerUserCallback);
+        loginUserController = new LoginUserController(loginUserCallback);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +88,12 @@ public class RegisterFragment extends Fragment {
                 registerUserController.start(user);
             }
         });
+    }
+
+    private void LoginUser() {
+        loginUserController.start(
+                username.getText().toString(),
+                password.getText().toString());
     }
 
     private void findViews(View view) {

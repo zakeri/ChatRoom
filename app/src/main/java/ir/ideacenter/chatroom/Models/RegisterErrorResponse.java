@@ -1,10 +1,10 @@
 package ir.ideacenter.chatroom.Models;
 
-public class ErrorResponse {
+public class RegisterErrorResponse {
     private String name;
     private String message;
 
-    public ErrorResponse() {
+    public RegisterErrorResponse() {
     }
 
     public String getName() {
