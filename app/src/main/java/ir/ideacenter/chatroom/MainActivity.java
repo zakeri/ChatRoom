@@ -4,16 +4,24 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public class MainActivity extends AppCompatActivity {
 
+    ViewPager viewPager;
+    TabLayout tabLayout;
+    MyFragmentPagerAdapter myFragmentPagerAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        findViews();
 
         // hide top action bar; we want fragment pager
         if (getSupportActionBar() != null) {
@@ -37,10 +45,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openAppFragment() {
-        RoomsFragment roomsFragment = new RoomsFragment();
+        /*RoomsFragment roomsFragment = new RoomsFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, roomsFragment)
-                .commit();
+                .commit();*/
+        myFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(myFragmentPagerAdapter);
+        tabLayout.setupWithViewPager(viewPager);
+
     }
 
     @Override
@@ -56,6 +68,11 @@ public class MainActivity extends AppCompatActivity {
                 broadcastReceiver,
                 new IntentFilter("login_done")
         );
+    }
+
+    private void findViews() {
+        tabLayout = findViewById(R.id.tab_layout);
+        viewPager = findViewById(R.id.view_pager);
     }
 
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
