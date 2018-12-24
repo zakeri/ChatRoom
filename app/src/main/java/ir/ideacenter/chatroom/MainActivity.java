@@ -15,10 +15,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // hide top action bar; we want fragment pager
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
+        if (MyPreferencesManager.getInstance(MainActivity.this).getAccessToken() == null) {
+            openRegisterFragment();
+        }
+        else {
+            openAppFragment();
+        }
+    }
+
+    private void openRegisterFragment() {
         RegisterFragment registerFragment = new RegisterFragment();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, registerFragment)
                 .addToBackStack(null)
+                .commit();
+    }
+
+    private void openAppFragment() {
+        RoomsFragment roomsFragment = new RoomsFragment();
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, roomsFragment)
                 .commit();
     }
 
@@ -41,10 +62,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             getSupportFragmentManager().popBackStack();
-            RoomsFragment roomsFragment = new RoomsFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, roomsFragment)
-                    .commit();
+            openAppFragment();
         }
     };
 }
