@@ -1,11 +1,13 @@
 package ir.ideacenter.chatroom.Data;
 
+import ir.ideacenter.chatroom.Models.GetRoomsResponse;
 import ir.ideacenter.chatroom.Models.TokenResponse;
 import ir.ideacenter.chatroom.Models.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -26,6 +28,12 @@ public interface ChatRoomAPI {
             @Field("username") String username,
             @Field("password") String password);
 
+    @Headers("X-Backtory-Object-Storage-Id:5a1d4b3de4b03ffa047badf5")
+    @POST("object-storage/classes/query/Room")
+    Call<GetRoomsResponse> getRooms(
+            @Header("Authorization") String authorization
+    );
+
     interface RegisterUserCallback {
         void onResponse(boolean success, String errorMessage, User user);
         void onFailure(String cause);
@@ -33,6 +41,11 @@ public interface ChatRoomAPI {
 
     interface LoginUserCallback {
         void onResponse(boolean success, String errorMessage, TokenResponse tokenResponse);
+        void onFailure(String cause);
+    }
+
+    interface GetRoomsCallback {
+        void onResponse(GetRoomsResponse getRoomsResponse);
         void onFailure(String cause);
     }
 

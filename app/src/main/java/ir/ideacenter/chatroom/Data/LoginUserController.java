@@ -5,7 +5,6 @@ import android.util.Log;
 import com.google.gson.Gson;
 
 import ir.ideacenter.chatroom.Models.LoginErrorResponse;
-import ir.ideacenter.chatroom.Models.RegisterErrorResponse;
 import ir.ideacenter.chatroom.Models.TokenResponse;
 import retrofit2.Call;
 import retrofit2.Callback;

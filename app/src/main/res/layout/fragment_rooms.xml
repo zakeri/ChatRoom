@@ -2,11 +2,13 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="@color/colorBackgroundGlobal"
+    android:clickable="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:text="fragment rooms"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rooms_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
 </android.support.constraint.ConstraintLayout>
