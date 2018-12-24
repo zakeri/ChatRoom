@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         myFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(myFragmentPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
-
+        viewPager.setCurrentItem(1);
     }
 
     @Override

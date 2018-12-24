@@ -20,6 +20,11 @@ public class MyPreferencesManager {
         editor = sharedPreferences.edit();
     }
 
+    public void clearEveryThing() {
+        editor.clear();
+        editor.apply();
+    }
+
     public String getUsername() {
         String username = sharedPreferences.getString("username", null);
         return username;

@@ -14,7 +14,12 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
-        return new RoomsFragment();
+        if (i == 0) {
+            return new ProfileFragment();
+        }
+        else {
+            return new RoomsFragment();
+        }
     }
 
     @Override

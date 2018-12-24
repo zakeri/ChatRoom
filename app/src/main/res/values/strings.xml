@@ -5,4 +5,5 @@
     <string name="email">آدرس ایمیل</string>
     <string name="phone_number">شماره تلفن</string>
     <string name="register">ثبت نام</string>
+    <string name="logout">خروج</string>
 </resources>
