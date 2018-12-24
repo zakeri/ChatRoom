@@ -64,7 +64,7 @@ public class RegisterFragment extends Fragment {
                 @Override
                 public void onResponse(boolean success, String errorMessage, TokenResponse tokenResponse) {
                     if (success) {
-                        Toast.makeText(getActivity(), "Token " + tokenResponse.getAccessToken(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity(), "Token " + tokenResponse.getAccessToken(), Toast.LENGTH_SHORT).show();
 
                         MyPreferencesManager.getInstance(getActivity()).putUsername(username.getText().toString());
                         MyPreferencesManager.getInstance(getActivity()).putAccessToken(tokenResponse.getAccessToken());

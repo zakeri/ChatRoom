@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,8 @@ import ir.ideacenter.chatroom.Models.Room;
 
 public class RoomsFragment extends Fragment {
     RecyclerView roomList;
+    ProgressBar progressBar;
+
     GetRoomsController getRoomsController;
     List<Room> roomItems = new ArrayList<>();
     RoomAdapter roomAdapter;
@@ -36,6 +39,8 @@ public class RoomsFragment extends Fragment {
         findViews(view);
         initRoomList();
 
+        progressBar.setVisibility(View.VISIBLE);
+
         getRoomsController = new GetRoomsController(getRoomsCallback);
         getRoomsController.start(
                 "bearer " + MyPreferencesManager.getInstance(getActivity()).getAccessToken());
@@ -44,6 +49,11 @@ public class RoomsFragment extends Fragment {
     ChatRoomAPI.GetRoomsCallback getRoomsCallback = new ChatRoomAPI.GetRoomsCallback() {
         @Override
         public void onResponse(GetRoomsResponse getRoomsResponse) {
+
+            if (progressBar.isShown()) {
+                progressBar.setVisibility(View.INVISIBLE);
+            }
+
             roomItems.clear();
             roomItems.addAll(getRoomsResponse.getRooms());
             roomAdapter.notifyDataSetChanged();
@@ -64,5 +74,6 @@ public class RoomsFragment extends Fragment {
 
     private void findViews(View view) {
         roomList = view.findViewById(R.id.rooms_list);
+        progressBar = view.findViewById(R.id.progress_bar);
     }
 }
